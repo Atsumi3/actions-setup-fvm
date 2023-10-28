@@ -1,0 +1,38 @@
+name: Setup Flutter FVM Environment
+description: 'Setup FVM, Flutter, and other dependencies for building Flutter apps.'
+
+# https://actions-cool.github.io/github-action-branding/
+branding:
+  icon: 'command'
+  color: 'purple'
+
+runs:
+  using: composite
+  steps:
+    - uses: kuhnroyal/flutter-fvm-config-action@v1
+      id: fvm-config-action
+
+    - uses: subosito/flutter-action@v2
+      with:
+        cache: true
+        flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
+        channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
+
+    - name: install fvm (linux)
+      if: runner.os == 'Linux'
+      shell: bash
+      run: |
+        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+        brew tap leoafarias/fvm
+        brew install fvm
+        echo "/home/linuxbrew/.linuxbrew/bin" >> $GITHUB_PATH
+        fvm install
+
+    - name: install fvm (macos)
+      if: runner.os == 'macOS'
+      shell: bash
+      run: |
+        brew tap leoafarias/fvm
+        brew install fvm
+        echo "/opt/homebrew/bin" >> $GITHUB_PATH
+        fvm install

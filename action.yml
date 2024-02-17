@@ -1,15 +1,15 @@
 name: Setup Flutter FVM Environment
-description: 'Setup FVM, Flutter, and other dependencies for building Flutter apps.'
+description: "Setup FVM, Flutter, and other dependencies for building Flutter apps."
 
 # https://actions-cool.github.io/github-action-branding/
 branding:
-  icon: 'command'
-  color: 'purple'
+  icon: "command"
+  color: "purple"
 
 runs:
   using: composite
   steps:
-    - uses: kuhnroyal/flutter-fvm-config-action@v1
+    - uses: kuhnroyal/flutter-fvm-config-action@v2
       id: fvm-config-action
 
     - uses: subosito/flutter-action@v2
